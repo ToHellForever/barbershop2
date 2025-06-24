@@ -1,0 +1,8 @@
+# created by virtualenv automatically
+.venv
+*__pycache__
+.env
+*.pyc
+запускается.png
+static.png
+git.txt

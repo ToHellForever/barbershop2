@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Детали заказа #{{ order.id }}{% endblock %}
+
+{% block content %}
+    <div class="order-detail-container">
+        <div class="container">
+            <h1>Детали заказа #{{ order.id }}</h1>
+            <p><b>Имя клиента:</b> {{ order.client_name }}</p>
+            <p><b>Мастер:</b> {{ order.master_name }}</p>
+            <p><b>Дата:</b> {{ order.date }}</p>
+            <p><b>Услуги:</b></p>
+            <ul>
+                {% for service in order.services %}
+                    <li>{{ service }}</li>
+                {% endfor %}
+            </ul>
+            <p><b>Статус:</b> 
+                <span class="status-{{ order.status }}">{{ order.status }}</span>
+            </p>
+            <a href="{% url 'orders_list' %}">Назад к списку заказов</a>
+        </div>
+    </div>
+{% endblock %}
