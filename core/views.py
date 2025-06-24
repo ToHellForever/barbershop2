@@ -14,6 +14,7 @@ def thanks(request):
     Отображает шаблон thanks.html.
     """
     return render(request, 'thanks.html') 
+
 def orders_list(request):
     """
     Список заказов.
