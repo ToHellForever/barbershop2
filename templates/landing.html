@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}The Gilded Razor - Главная{% endblock %}
-
 {% block content %}
 <main class="container mt-3 flex-grow-1">
-    <section id="about" class="landing-section">
+<section id="about" class="landing-section">
         <h1>Добро пожаловать в The Gilded Razor</h1>
         <b>О нас:</b>
         <p>The Gilded Razor — это ваш идеальный барбершоп, где стиль встречается с мастерством. Мы предлагаем широкий спектр услуг, от классических стрижек до современных укладок, чтобы подчеркнуть вашу индивидуальность. Наша команда опытных мастеров использует только лучшие техники и качественные продукты, чтобы гарантировать вам безупречный результат.
@@ -15,25 +13,24 @@
 Приходите в The Gilded Razor и откройте для себя мир стиля и комфорта, где каждая стрижка — это искусство, а каждый клиент — наш друг.</p>
     </section>
     
-    <section id="services-masters" class="landing-section d-flex justify-content-between">
-        <div class="services-column">
-            <h2>Услуги</h2>
-            <ul class="service-list">
-                {% for service in services %}
-                    <li class="service-item">{{ service }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <div class="masters-column">
-            <h2>Мастера</h2>
-            <ul class="master-list">
-                {% for master in masters %}
-                    <li class="master-item">{{ master.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
+<section id="services-masters" class="landing-section d-flex justify-content-between">
+    <div class="services-column">
+        <h2>Услуги</h2>
+        <ul class="service-list">
+            <li>
+                <a href="{% url 'services' %}" class="btn btn-primary">Посмотреть услуги</a>
+            </li>
+        </ul>
+    </div>
+    <div class="masters-column">
+        <h2>Мастера</h2>
+        <ul class="master-list">
+            <li>
+                <a href="{% url 'masters' %}" class="btn btn-primary">Посмотреть мастеров</a>
+            </li>
+        </ul>
+    </div>
+</section>
     
     <section id="booking" class="landing-section text-center">
         <h2>Запись</h2>

@@ -10,18 +10,19 @@ def landing(request):
     """
     return render(request, 'landing.html')
 
-def services(request):
+def services_views(request):
     """
     Страница услуг.
     """
     context = {
         'services': services
         }
-    return render(request, 'services.html')
+    return render(request, 'services.html', context=context)
 
-def masters(request):
+def masters_views(request):
     """
     Страница мастеров.
+    Отображает шаблон masters.html, передавая данные о мастерах.
     """
     context = {
         'masters': masters
@@ -33,7 +34,7 @@ def thanks(request):
     Страница благодарности.
     Отображает шаблон thanks.html.
     """
-    return render(request, 'thanks.html', context=context) 
+    return render(request, 'thanks.html') 
 
 def orders_list(request):
     """
@@ -48,7 +49,7 @@ def orders_list(request):
         order["master_name"] = master_dict.get(order["master_id"], "Неизвестный мастер")
     # Передаем данные о заказах в контекст
     context = {'orders': orders}  
-    return render(request, 'orders_list.html', context)
+    return render(request, 'orders_list.html', context=context)
 
 def order_detail(request, order_id):
     """
@@ -65,6 +66,6 @@ def order_detail(request, order_id):
         order["master_name"] = master_dict.get(order["master_id"], "Неизвестный мастер")
         # Передаем данные о заказах в контекст
         context = {'order': order}
-        return render(request, 'order_detail.html', context)
+        return render(request, 'order_detail.html', context=context)
     except StopIteration:  # Заказ не найден
         return HttpResponse(f'Заказ с id={order_id} не найден')

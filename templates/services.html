@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}The Gilded Razor - Услуги{% endblock %}
+{% block content %}
+<main class="container mt-3">
+    <section id="services" class="landing-section">
+        <h2>Услуги</h2>
+        <ul class="service-list">
+            {% for service in services %}
+                <li class="service-item">{{ service }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+{% endblock %}
