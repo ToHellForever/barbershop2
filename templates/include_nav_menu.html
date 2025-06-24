@@ -1,7 +1,21 @@
-<nav>
-    <ul>
-        <li><a href="{% url 'landing' %}">Главная</a></li>
-        <li><a href="{% url 'orders_list' %}">Список заказов</a></li>
-        <li><a href="{% url 'thanks' %}">Спасибо</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container justify-content-center">
+        <a class="navbar-brand" href="#">Barbershop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'landing' %}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'orders_list' %}">Заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'thanks' %}">Спасибо</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
