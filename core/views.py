@@ -1,12 +1,18 @@
 from django.shortcuts import render, HttpResponse
-from .data import orders, masters
+from .data import orders, masters, services
+
+
 
 def landing(request):
     """
     Главная страница.
     Отображает шаблон landing.html.
     """
-    return render(request, 'landing.html') 
+    context = {
+        'masters': masters,
+        'services': services,
+    }
+    return render(request, 'landing.html', context)
 
 def thanks(request):
     """

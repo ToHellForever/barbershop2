@@ -67,22 +67,22 @@ h1 {
 }
 
 .new {
-    color: #27ae60;
+    color: rgb(150, 150, 41);
     font-weight: bold;
 }
 
 .confirmed {
-    color: #2980b9;
+    color: rgb(69, 69, 187);
     font-weight: bold;
 }
 
 .rejected {
-    color: #e74c3c;
+    color: rgb(172, 61, 61);
     font-weight: bold;
 }
 
 .canceled {
-    color: #95a5a6;
+    color: rgb(53, 139, 53);
     font-weight: bold;
 }
 
@@ -113,4 +113,42 @@ h1 {
 
 .nav-link:last-child {
     margin-right: 0;
+}
+.landing-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#services-masters {
+    display: flex; /* Используем flexbox для размещения столбцов */
+    justify-content: space-between; /* Распределяем пространство между столбцами */
+}
+
+.services-column, .masters-column {
+    width: 45%; /* Задаем ширину для каждого столбца */
+}
+
+.service-list, .master-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.service-item, .master-item {
+    background-color: #e0f7fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#booking {
+    text-align: center;
+    font-size: 1.2em;
+    color: #2980b9;
+}
+
+.btn {
+    margin-top: 20px; /* Отступ сверху для кнопки записи */
 }
