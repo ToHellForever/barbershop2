@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}The Gilded Razor - Детали заказа #{{ order.id }}{% endblock %}
-
 {% block content %}
     <div class="order-detail-container">
         <div class="container">
@@ -16,10 +14,23 @@
                     <li>{{ service }}</li>
                 {% endfor %}
             </ul>
-            <p><b>Статус:</b> 
-                <span class="status-{{ order.status }}">{{ order.status }}</span>
+            <p class="{% if order.status == 'новая' %}
+            new
+            {% elif order.status == 'подтвержденная' %}
+            confirmed
+            {% elif order.status == 'отмененная' %}
+            rejected
+            {% elif order.status == 'выполненная' %}
+            canceled
+            {% endif %}">
+                Статус заявки: {{ order.status }}
             </p>
-            <a href="{% url 'orders_list' %}">Назад к списку заказов</a>
+            <div class="services">
+                {% comment %} цикл для span услуг {% endcomment %}
+                {% for service in order.services %}
+                    <span class="service">{{ service }}</span>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

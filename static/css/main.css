@@ -76,3 +76,9 @@ h1 {
     color: #95a5a6;
     font-weight: bold;
 }
+
+.center-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
