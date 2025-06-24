@@ -8,18 +8,32 @@ def landing(request):
     Главная страница.
     Отображает шаблон landing.html.
     """
+    return render(request, 'landing.html')
+
+def services(request):
+    """
+    Страница услуг.
+    """
     context = {
-        'masters': masters,
-        'services': services,
-    }
-    return render(request, 'landing.html', context)
+        'services': services
+        }
+    return render(request, 'services.html')
+
+def masters(request):
+    """
+    Страница мастеров.
+    """
+    context = {
+        'masters': masters
+        }
+    return render(request, 'masters.html', context=context)
 
 def thanks(request):
     """
     Страница благодарности.
     Отображает шаблон thanks.html.
     """
-    return render(request, 'thanks.html') 
+    return render(request, 'thanks.html', context=context) 
 
 def orders_list(request):
     """
