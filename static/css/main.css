@@ -173,16 +173,16 @@ h2 {
 }
 
 .btn {
-    display: inline-block; /* Делаем ссылку блочным элементом */
-    padding: 5px 10px; /* Уменьшаем внутренние отступы */
-    background-color: #007bff; /* Цвет фона кнопки */
-    color: white; /* Цвет текста */
-    text-decoration: none; /* Убираем подчеркивание */
-    border-radius: 3px; /* Закругленные углы */
-    font-size: 0.9em; /* Уменьшаем размер шрифта */
-    transition: background-color 0.3s; /* Плавный переход при наведении */
+    display: inline-block; 
+    padding: 5px 10px; 
+    background-color: #007bff; 
+    color: white; 
+    text-decoration: none;
+    border-radius: 3px; 
+    font-size: 0.9em;
+    transition: background-color 0.3s; 
 }
 
 .btn-small:hover {
-    background-color: #0056b3; /* Цвет фона при наведении */
+    background-color: #0056b3;
 }

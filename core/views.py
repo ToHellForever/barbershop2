@@ -10,9 +10,11 @@ def landing(request):
     """
     return render(request, 'landing.html')
 
+
 def services_views(request):
     """
     Страница услуг.
+    Отображает шаблон services.html, передавая данные об услугах.
     """
     context = {
         'services': services
@@ -28,6 +30,17 @@ def masters_views(request):
         'masters': masters
         }
     return render(request, 'masters.html', context=context)
+
+def entry_form(request):
+    """
+    Страница записи на услугу.
+    Отображает шаблон entry.html, передавая данные о мастерах и услугах для выбора.
+    """
+    context = {
+        'masters': masters,
+        'services': services,
+        }
+    return render(request, 'entry_form.html', context=context)
 
 def thanks(request):
     """
