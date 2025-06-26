@@ -2,6 +2,9 @@
 {% block title %}The Gilded Razor - Список заказов{% endblock title %}
 {% block content %}   
 <h1>Список заявок</h1>
+    {% if not orders %}
+        <p>Нет активных заявок.</p>
+    {% endif %}
     <div class="flex-container">
         {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
         {% for order in orders %}

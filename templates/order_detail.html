@@ -1,35 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}The Gilded Razor - Детали заказа #{{ order.id }}{% endblock %}
+
+{% block title %}The Gilded Razor - Детали заказа №{{ order.id }}{% endblock %}
+
 {% block content %}
-    <div class="order-detail-container">
-        <div class="container">
-            <h1>Детали заказа #{{ order.id }}</h1>
-            <p><b>Имя клиента:</b> {{ order.client_name }}</p>
-            <p><b>Мастер:</b> {{ order.master_name }}</p>
-            <p><b>Дата:</b> {{ order.date }}</p>
-            <p><b>Услуги:</b></p>
-            <ul>
-                {% for service in order.services %}
-                    <li>{{ service }}</li>
-                {% endfor %}
-            </ul>
-            <p class="{% if order.status == 'новая' %}
-            new
-            {% elif order.status == 'подтвержденная' %}
-            confirmed
-            {% elif order.status == 'отмененная' %}
-            rejected
-            {% elif order.status == 'выполненная' %}
-            canceled
-            {% endif %}">
-                Статус заявки: {{ order.status }}
-            </p>
-            <div class="services">
-                {% comment %} цикл для span услуг {% endcomment %}
-                {% for service in order.services %}
-                    <span class="service">{{ service }}</span>
-                {% endfor %}
+    <div class="container mt-4"> 
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="mb-0">Детали заказа №{{ order.id }}</h1>
+            </div>
+            <div class="card-body">
+                <div class="detail-info">
+                    <p class="mb-2"><b>Имя клиента:</b> {{ order.client_name }}</p>
+                    <p class="mb-2"><b>Мастер:</b> {{ order.master_name }}</p>
+                    <p class="mb-2"><b>Дата:</b> {{ order.date }}</p>
+                    <p class="mb-2"><b>Услуги:</b></p>
+                    <ul class="list-group services-list mb-3"> 
+                        {% for service in order.services %}
+                            <li class="list-group-item">{{ service }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="status badge rounded-pill 
+                        {% if order.status == 'новая' %}
+                                bg-warning text-dark
+                        {% elif order.status == 'подтвержденная' %}
+                                bg-success
+                        {% elif order.status == 'отмененная' %}
+                                bg-danger
+                        {% elif order.status == 'выполненная' %}
+                                bg-secondary
+                        {% endif %}">
+                        Статус: {{ order.status }}
+                    </p>
+
+                </div>
             </div>
         </div>
     </div>
