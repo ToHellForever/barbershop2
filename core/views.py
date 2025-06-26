@@ -37,7 +37,6 @@ def entry_form(request):
     Отображает шаблон entry.html, передавая данные о мастерах и услугах для выбора.
     """
     context = {
-        'masters': masters,
         'services': services,
         }
     return render(request, 'entry_form.html', context=context)
