@@ -6,3 +6,6 @@
 запускается.png
 static.png
 git.txt
+db.sqlite3
+*.sqlite
+*.sqlite3
