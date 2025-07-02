@@ -7,6 +7,7 @@ from core import views
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls), # Административная панель Django
     path('', views.landing, name='landing'),  # Главная страница
     path('orders/', views.orders_list, name='orders_list'),  # Список заказов
     path('thanks/', views.thanks, name='thanks'),  # Страница благодарности
