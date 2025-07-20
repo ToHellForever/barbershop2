@@ -4,34 +4,39 @@
 {% block title %}The Gilded Razor - Детали заказа №{{ order.id }}{% endblock %}
 
 {% block content %}
-    <div class="container mt-4"> 
-        <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <h1 class="mb-0">Детали заказа №{{ order.id }}</h1>
+    <div class="container order-detail-container">
+        <div class="order-details-card">
+            <div class="order-header">
+                <h4 class="text-white">Детали заказа №{{ order.id }}</h4>
             </div>
-            <div class="card-body">
-                <div class="detail-info">
-                    <p class="mb-2"><b>Имя клиента:</b> {{ order.client_name }}</p>
-                    <p class="mb-2"><b>Мастер:</b> {{ order.master_name }}</p>
-                    <p class="mb-2"><b>Дата:</b> {{ order.date }}</p>
-                    <p class="mb-2"><b>Услуги:</b></p>
-                    <ul class="list-group services-list mb-3"> 
-                        {% for service in order.services %}
-                            <li class="list-group-item">{{ service }}</li>
-                        {% endfor %}
-                    </ul>
-                    <p class={% if order.status == "новая" %}
-                    "new"
-                    {% elif order.status == "подтвержденная" %}
-                    "confirmed"
-                    {% elif order.status == "отмененная" %}
-                    "rejected"
-                    {% elif order.status == "выполненная" %}
-                    "canceled"
-                    {% endif %}>
-                        Статус заявки: {{ order.status }}
-                    </p>
-
+            <div class="order-body">
+                <div class="order-info">
+                    <div class="info-item">
+                        <span class="info-label">Имя клиента:</span>
+                        <span class="info-value">{{ order.client_name }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Мастер:</span>
+                        <span class="info-value">{{ order.master_name }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Дата:</span>
+                        <span class="info-value">{{ order.date }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Услуги:</span>
+                        <ul class="services-list">
+                            {% for service in order.services %}
+                                <li>{{ service }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Статус заявки:</span>
+                        <span class="order-status {{ order.status|slugify }}">
+                            {{ order.status }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

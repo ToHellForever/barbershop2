@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from .data import orders, masters, services
+# безопасность 
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -48,6 +50,7 @@ def thanks(request):
     """
     return render(request, 'thanks.html') 
 
+@login_required
 def orders_list(request):
     """
     Список заказов.
@@ -63,6 +66,7 @@ def orders_list(request):
     context = {'orders': orders}  
     return render(request, 'orders_list.html', context=context)
 
+@login_required
 def order_detail(request, order_id):
     """
     Страница деталей заказа.

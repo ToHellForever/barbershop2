@@ -1,188 +1,257 @@
-html, body {
-    height: 100%;
-    margin: 0;
+body {
+    font-family: 'Roboto', sans-serif; 
+    background-color: #f5f5f5;
+    color: #333; 
+    line-height: 1.6; 
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    padding: 0; 
-    background-color: #f5f5f5;
-}
-
-main {
-    flex-grow: 1;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
-.flex-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px;
-    transition: transform 0.3s ease;
-}
-
-.flex-card:hover {
-    transform: translateY(-5px);
-}
-
-.flex-card h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.flex-card p {
-    margin: 10px 0;
-}
-
-.services {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 15px;
-}
-
-.service {
-    background-color: #e0f7fa;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.9em;
-}
-
-.new {
-    color: rgb(150, 150, 41);
-    font-weight: bold;
-}
-
-.confirmed {
-    color: rgb(69, 69, 187);
-    font-weight: bold;
-}
-
-.rejected {
-    color: rgb(172, 61, 61);
-    font-weight: bold;
-}
-
-.canceled {
-    color: rgb(53, 139, 53);
-    font-weight: bold;
-}
-
-.center-button {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-}
-/* footer */
-.footer {
-    background-color: #26292cff;
-    color: white;
-    padding: 20px 0; 
-    width: 100%;
-    position: relative; 
-    bottom: 0; 
-}
-
-.navbar {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.nav-link {
-    margin-right: 15px;
-}
-
-.nav-link:last-child {
-    margin-right: 0;
-}
 .landing-section {
-    margin-bottom: 40px;
+    margin-bottom: 40px; 
+    padding: 30px; 
+    background-color: #fff;
+    border-radius: 12px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+h1, h2 {
+    color: #2c3e50; 
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Стили для мастеров */
+#masters .card {
+    border: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+
+#masters .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+#masters .card-img-top {
+    border-radius: 12px 12px 0 0; 
+    object-fit: cover; 
+    height: 220px; 
+}
+
+#masters .card-body {
     padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.service-list {
-    list-style-type: none; 
-    padding: 0; 
+#masters .card-title {
+    font-size: 1.2rem; 
+    margin-bottom: 8px; 
 }
 
-.service-item {
-    margin-bottom: 10px; 
-    padding: 10px; 
+#masters .card-text {
+    color: #777; 
+}
+
+/* Стили для отзывов */
+#reviews .card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
     background-color: #f9f9f9; 
-    border: 1px solid #ddd; 
-    border-radius: 5px; 
-    transition: background-color 0.3s; 
 }
 
-.service-item:hover {
-    background-color: #e0e0e0; 
+#reviews .card-body {
+    padding: 20px;
 }
 
-h2 {
-    text-align: center; 
-    color: #333;
-}
-.master-list {
-    list-style-type: none; 
-    padding: 0; 
+#reviews .card-title {
+    font-weight: 600; 
+    margin-bottom: 10px;
 }
 
-.masters-item {
-    margin-bottom: 10px; 
-    padding: 10px;
-    background-color: #f9f9f9; 
-    border: 1px solid #ddd; 
-    border-radius: 5px; 
-    transition: background-color 0.3s; 
+#reviews .card-text {
+    font-style: italic;
+    color: #555;
 }
 
-.masters-item:hover {
-    background-color: #e0e0e0; 
-}
-
-h2 {
-    text-align: center; 
-    color: #333; 
-}
-#booking {
-    text-align: center;
-    font-size: 1.2em;
-    color: #2980b9;
-}
-
+/* Общие стили для кнопок */
 .btn {
-    display: inline-block; 
-    padding: 5px 10px; 
-    background-color: #007bff; 
-    color: white; 
-    text-decoration: none;
-    border-radius: 3px; 
-    font-size: 0.9em;
-    transition: background-color 0.3s; 
+    font-weight: 500; 
 }
 
-.btn-small:hover {
+.container.order-list {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.order-list h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Стили для пустых заказов */
+.no-orders {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+/* Стили для сетки заказов */
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
+}
+
+/* Стили для карточки заказа */
+.order-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out; 
+}
+
+.order-card:hover {
+    transform: translateY(-5px); 
+}
+
+.order-card h2 {
+    color: #555;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.order-card p {
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.order-card .btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block; 
+}
+
+.order-card .btn:hover {
     background-color: #0056b3;
 }
+
+
+
+.order-detail-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* Стили для карточки деталей заказа */
+.order-details-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Стили для заголовка карточки */
+.order-header {
+    background-color: #0971da;
+    color: #915959;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* Стили для тела карточки */
+.order-body {
+    padding: 30px;
+}
+
+/* Стили для информации о заказе */
+.order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Стили для отдельных элементов информации */
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.info-item:last-child {
+    border-bottom: none; 
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.info-value {
+    color: #333;
+}
+
+/* Стили для списка услуг */
+.services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.services-list li {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+
+/* Стили для статусов заявки (минимальные изменения) */
+.flex-card p.new,
+.flex-card p.confirmed,
+.flex-card p.rejected,
+.flex-card p.canceled {
+    color: white; 
+    display: inline-block;
+    padding: 4px 8px; 
+    border-radius: 4px; 
+    font-size: 0.9em; 
+}
+
+.flex-card p.new {
+    background-color: #011aff; 
+}
+
+.flex-card p.confirmed {
+    background-color:#28a745 ; 
+}
+
+.flex-card p.rejected {
+    background-color: #dc3545; 
+}
+
+.flex-card p.canceled {
+    background-color: #6c757d; 
+}
+
+
