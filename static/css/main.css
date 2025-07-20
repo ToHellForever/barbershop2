@@ -226,7 +226,7 @@ h1, h2 {
 }
 
 
-/* Стили для статусов заявки (минимальные изменения) */
+/* Стили для статусов заявки */
 .flex-card p.new,
 .flex-card p.confirmed,
 .flex-card p.rejected,

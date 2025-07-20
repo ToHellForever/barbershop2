@@ -3,8 +3,10 @@ from .models import Master, Order, Service, Review
 
 @admin.register(Master)
 class MasterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'is_active')
-    filter_horizontal = ('services',)
+    list_display = ('name', 'experience', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name',)
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -19,3 +21,5 @@ class ServiceAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('client_name', 'master', 'rating', 'is_published')
+    list_filter = ('master', 'rating', 'is_published')
+    search_fields = ('client_name', 'text')

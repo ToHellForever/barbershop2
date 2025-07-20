@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from .data import orders, masters, services
+from .models import Master, Review
 # безопасность 
 from django.contrib.auth.decorators import login_required
 
@@ -8,10 +9,16 @@ from django.contrib.auth.decorators import login_required
 def landing(request):
     """
     Главная страница.
-    Отображает шаблон landing.html.
+    Отображает шаблон landing.html, передавая данные о мастерах и отзывах.
     """
-    return render(request, 'landing.html')
+    masters = Master.objects.filter(is_active=True) # Получаем активных мастеров
+    reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:6] # Получаем последние 6 опубликованных отзывов
 
+    context = {
+        'masters': masters,
+        'reviews': reviews,
+    }
+    return render(request, 'landing.html', context=context)
 
 def services_views(request):
     """
