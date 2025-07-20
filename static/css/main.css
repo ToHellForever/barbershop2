@@ -39,7 +39,8 @@ h1, h2 {
 #masters .card-img-top {
     border-radius: 12px 12px 0 0; 
     object-fit: cover; 
-    height: 220px; 
+    height: 350px;
+
 }
 
 #masters .card-body {
@@ -226,32 +227,29 @@ h1, h2 {
 }
 
 
-/* Стили для статусов заявки */
-.flex-card p.new,
-.flex-card p.confirmed,
-.flex-card p.rejected,
-.flex-card p.canceled {
-    color: white; 
+
+
+.order-card .order-status {
+    color: white;
     display: inline-block;
-    padding: 4px 8px; 
-    border-radius: 4px; 
-    font-size: 0.9em; 
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 5px; 
 }
 
-.flex-card p.new {
-    background-color: #011aff; 
+.order-card .order-status.new {
+    background-color: #c4b638;
 }
 
-.flex-card p.confirmed {
-    background-color:#28a745 ; 
+.order-card .order-status.confirmed {
+    background-color: #28a745; 
 }
 
-.flex-card p.rejected {
+.order-card .order-status.rejected {
     background-color: #dc3545; 
 }
 
-.flex-card p.canceled {
+.order-card .order-status.canceled {
     background-color: #6c757d; 
 }
-
-

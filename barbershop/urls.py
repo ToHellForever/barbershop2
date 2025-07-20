@@ -15,4 +15,7 @@ urlpatterns = [
     path('services/', views.services_views, name='services'), # Список услуг
     path('masters/', views.masters_views, name='masters'), # Список мастеров
     path('entry_form/', views.entry_form, name='entry_form'), # Форма записи
-    ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

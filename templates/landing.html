@@ -12,21 +12,25 @@
     </section>
 
     <section id="masters" class="landing-section">
-        <h2>Наши мастера</h2>
-        <div class="row">
-            {% for master in masters %}
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100">
-                        <img src="" class="card-img-top" alt="{{ master.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ master.name }}</h5>
-                            <p class="card-text">Опыт: {{ master.experience }} лет</p>
-                        </div>
+    <h2>Наши мастера</h2>
+    <div class="row">
+        {% for master in masters %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    {% if master.photo %}
+                        <img src="{{ master.photo.url }}" class="card-img-top" alt="{{ master.photo  }}">
+                    {% else %}
+                        <img src="" class="card-img-top" alt="Фотография отсутствует">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ master.name }}</h5>
+                        <p class="card-text">Опыт: {{ master.experience }} лет</p>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    </section>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 
     <section id="reviews" class="landing-section">
         <h2>Отзывы наших клиентов</h2>
