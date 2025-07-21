@@ -238,16 +238,16 @@ h1, h2 {
     margin-top: 5px; 
 }
 
+.order-card .order-status.completed {
+    background-color: rgb(209, 18, 18);
+}
+
 .order-card .order-status.new {
     background-color: #c4b638;
 }
 
 .order-card .order-status.confirmed {
     background-color: #28a745; 
-}
-
-.order-card .order-status.rejected {
-    background-color: #dc3545; 
 }
 
 .order-card .order-status.canceled {

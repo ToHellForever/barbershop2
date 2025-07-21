@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from core.views import landing, thanks, orders_list, order_detail, services, masters, entry_form
+from core.views import landing, thanks, orders_list, order_detail, services_views, masters_views, entry_form
 from core import views
 
 

@@ -17,24 +17,25 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">Мастер:</span>
-                        <span class="info-value">{{ order.master_name }}</span>
+                        <span class="info-value">{{ master_name }}</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Дата:</span>
-                        <span class="info-value">{{ order.date }}</span>
+                        <span class="info-label">Дата записи:</span>
+                        <span class="info-value">{{ order.date_created }}</span> 
+
                     </div>
                     <div class="info-item">
                         <span class="info-label">Услуги:</span>
                         <ul class="services-list">
-                            {% for service in order.services %}
-                                <li>{{ service }}</li>
+                            {% for service in related_services %}
+                                <li>{{ service.name }}</li> 
                             {% endfor %}
                         </ul>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Статус заявки:</span>
                         <span class="order-status {{ order.status|slugify }}">
-                            {{ order.status }}
+                            {{ order.get_status_display }}
                         </span>
                     </div>
                 </div>
