@@ -1,20 +1,46 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}The Gilded Razor - Список заказов{% endblock title %}
+{% block title %}Список заказов{% endblock title %}
 
 {% block content %}
-    <div class="container order-list">
-        <h1>Список заявок</h1>
-
-        {% if not orders %}
-            <p class="no-orders">Нет активных заявок.</p>
-        {% else %}
-            <div class="order-grid">
-                {% for order in orders %}
-                    {% include "includes/include_order_card.html" %}
-                {% endfor %}
+    <div class="container">
+        <h1>Поиск заявок</h1>
+        <form action="" method="get">
+            <div class="form-group">
+                <label for="search_query">Поисковый запрос:</label>
+                <input type="text" name="q" id="search_query" class="form-control" value="{{ request.GET.q|default:'' }}">
             </div>
-        {% endif %}
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="search_name" name="search_name" checked>
+                <label class="form-check-label" for="search_name">По имени клиента</label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="search_phone" name="search_phone" {% if request.GET.search_phone == 'on' %}checked{% endif %}>
+                <label class="form-check-label" for="search_phone">По телефону</label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="search_comment" name="search_comment" {% if request.GET.search_comment == 'on' %}checked{% endif %}>
+                <label class="form-check-label" for="search_comment">По комментарию</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        <div class="container order-list">
+            <h1>Список заявок</h1>
+
+            {% if not orders %}
+                <p class="no-orders">Нет активных заявок.</p>
+            {% else %}
+                <div class="order-grid">
+                    {% for order in orders %}
+                        {% include "includes/include_order_card.html" %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}

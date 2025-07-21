@@ -239,7 +239,7 @@ h1, h2 {
 }
 
 .order-card .order-status.completed {
-    background-color: rgb(209, 18, 18);
+    background-color: rgb(190, 34, 34);
 }
 
 .order-card .order-status.new {

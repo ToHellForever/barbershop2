@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from .models import Master, Review, Order, Service
 # безопасность 
 from django.contrib.auth.decorators import login_required
+# импорт q
+from django.db.models import Q
 
 
 
@@ -66,19 +68,36 @@ def thanks(request):
 
 @login_required
 def orders_list(request):
-    """
-    Список заказов.
-    Отображает шаблон orders_list.html, передавая данные о заказах, отсортированных по дате создания.
-    """
-    # Получаем все заказы из базы данных, сортируем по убыванию date_created
+    search_query = request.GET.get('q', '')  # Получаем поисковый запрос
+    search_name = request.GET.get('search_name', 'on')  # По умолчанию включен
+    search_phone = request.GET.get('search_phone', '')
+    search_comment = request.GET.get('search_comment', '')
+
+    # Создаем базовый QuerySet, отсортированный по дате создания
     orders = Order.objects.all().order_by('-date_created')
 
-    master_dict = {master.id: master.name for master in Master.objects.all()}
+    # Создаем Q-объект для фильтрации
+    q_object = Q()
 
-    for order in orders:
-        order.master_name = master_dict.get(order.master_id, "Неизвестный мастер")
+    # Если есть поисковый запрос, добавляем условия в зависимости от чекбоксов
+    if search_query:
+        if search_name == 'on':  # Если включен чекбокс "Имя клиента"
+            q_object |= Q(client_name__icontains=search_query)
+        if search_phone == 'on':  # Если включен чекбокс "Телефон"
+            q_object |= Q(phone__icontains=search_query)
+        if search_comment == 'on':  # Если включен чекбокс "Комментарий"
+            q_object |= Q(comment__icontains=search_query)
 
-    context = {'orders': orders}
+        # Фильтруем заказы с использованием Q-объекта
+        orders = orders.filter(q_object)
+
+    context = {
+        'orders': orders,
+        'search_query': search_query,
+        'search_name': search_name,
+        'search_phone': search_phone,
+        'search_comment': search_comment,
+    }
     return render(request, 'orders_list.html', context=context)
 
 
@@ -101,6 +120,10 @@ def order_detail(request, order_id):
     context = {
         'order': order,
         'master_name': master_name, 
-        'related_services': related_services 
+        'related_services': related_services,
+        'phone': order.phone,  
+        'comment': order.comment,  
+        'appointment_date': order.appointment_date, 
+        'date_created': order.date_created,
     }
     return render(request, 'order_detail.html', context=context)

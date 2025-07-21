@@ -20,15 +20,26 @@
                         <span class="info-value">{{ master_name }}</span>
                     </div>
                     <div class="info-item">
+                        <span class="info-label">Дата создания:</span>
+                        <span class="info-value">{{ date_created }}</span>  
+                    </div>
+                    <div class="info-item">
                         <span class="info-label">Дата записи:</span>
-                        <span class="info-value">{{ order.date_created }}</span> 
-
+                        <span class="info-value">{{ appointment_date }}</span>  
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Номер телефона:</span>
+                        <span class="info-value">{{ phone }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Комментарий:</span>
+                        <span class="info-value">{{ comment }}</span> 
                     </div>
                     <div class="info-item">
                         <span class="info-label">Услуги:</span>
                         <ul class="services-list">
                             {% for service in related_services %}
-                                <li>{{ service.name }}</li> 
+                                <li>{{ service.name }}</li>
                             {% endfor %}
                         </ul>
                     </div>
