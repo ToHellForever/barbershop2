@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core.views import landing, thanks, orders_list, order_detail, services_views, masters_views, entry_form
 from core import views
-
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls), # Административная панель Django
@@ -15,7 +15,7 @@ urlpatterns = [
     path('services/', views.services_views, name='services'), # Список услуг
     path('masters/', views.masters_views, name='masters'), # Список мастеров
     path('entry_form/', views.entry_form, name='entry_form'), # Форма записи
-]
+] + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -43,6 +43,11 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    {% comment %} вывод суммы за услуги {% endcomment %}
+                    <div class="info-item">
+                        <span class="info-label">Итоговая сумма:</span>
+                        <span class="info-value">{{ order.total_price|floatformat:2 }} руб.</span>
+                    </div>
                     <div class="info-item">
                         <span class="info-label">Статус заявки:</span>
                         <span class="order-status {{ order.status|slugify }}">

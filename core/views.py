@@ -3,9 +3,7 @@ from .models import Master, Review, Order, Service
 # безопасность 
 from django.contrib.auth.decorators import login_required
 # импорт q
-from django.db.models import Q
-
-
+from django.db.models import Q, Sum
 
 def landing(request):
     """
@@ -13,7 +11,7 @@ def landing(request):
     Отображает шаблон landing.html, передавая данные о мастерах и отзывах.
     """
     masters = Master.objects.filter(is_active=True) # Получаем активных мастеров
-    reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:4] # Получаем последние 4 отзыва
+    reviews = Review.objects.select_related('master').filter(is_published=True).order_by('-created_at')[:4] # Получаем последние 4 отзыва
 
     context = {
         'masters': masters,
@@ -89,8 +87,7 @@ def orders_list(request):
             q_object |= Q(comment__icontains=search_query)
 
         # Фильтруем заказы с использованием Q-объекта
-        orders = orders.filter(q_object)
-
+        orders = Order.objects.prefetch_related('services').select_related('master').filter(q_object)
     context = {
         'orders': orders,
         'search_query': search_query,
@@ -108,13 +105,19 @@ def order_detail(request, order_id):
     Отображает шаблон order_detail.html, передавая данные о конкретном заказе.
     Если заказ не найден, возвращает 404 ошибку.
     """
-    # Получаем заказ из базы данных по ID заказа или возвращает 404 ошибку, если заказ не найден
-    order = get_object_or_404(Order, pk=order_id)
+    # Получаем заказ по ID, используя prefetch_related и select_related для оптимизации запросов
+    # Используем annotate для получения суммы стоимости услуг
+    order = (
+        Order.objects.prefetch_related("services")
+        .select_related("master")
+        .annotate(total_price=Sum("services__price"))
+        .get(id=order_id)
+    )
 
     # Получаем имя мастера
     master_name = order.master.name if order.master else "Неизвестный мастер"
 
-
+    # Получаем связанные услуги
     related_services = order.services.all() 
 
     context = {
