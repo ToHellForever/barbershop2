@@ -1,0 +1,151 @@
+/* Общий фон и шрифты */
+body, .module, .grp-module {
+    background: #f9fafb !important;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #222;
+    font-size: 15px;
+}
+
+/* Заголовки */
+#header, .module caption, h1, h2, h3, h4 {
+    background: none !important;
+    color: #222 !important;
+    padding: 0 0 12px 0;
+    border-radius: 0;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    box-shadow: none;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Таблицы */
+.change-list table, .grp-table {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.change-list th, .grp-table th {
+    background: #f3f4f6;
+    color: #222;
+    font-weight: 600;
+    padding: 10px 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.change-list td, .grp-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+    font-size: 14px;
+}
+.change-list tr:nth-child(even), .grp-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+.change-list tr:hover, .grp-table tr:hover {
+    background: #f3f4f6 !important;
+    transition: background 0.2s;
+}
+
+/* Кнопки */
+.button, input[type="submit"], .grp-button, .default, .button.default {
+    background: #222 !important;
+    color: #fff !important;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 18px;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: none;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+.button:hover, input[type="submit"]:hover, .grp-button:hover, .default:hover {
+    background: #444 !important;
+}
+
+/* Форма и поля */
+fieldset, .grp-module {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 18px 0;
+    margin-bottom: 18px;
+    border: none;
+}
+input, select, textarea {
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 15px;
+    background: #f9fafb;
+    margin-bottom: 10px;
+    transition: border 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: #222;
+    outline: none;
+}
+
+/* Сообщения */
+.messagelist, .grp-messagelist {
+    background: #f3f4f6;
+    color: #222;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Фильтры и боковая панель */
+#changelist-filter, .grp-filter {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 10px 0 10px 0;
+    margin-bottom: 18px;
+    border: none;
+}
+#changelist-filter h2, .grp-filter h2 {
+    color: #222;
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 5px;
+}
+
+/* Инлайн-формы */
+.inline-group, .grp-group {
+    background: #f9fafb;
+    border-radius: 0;
+    padding: 10px 0;
+    margin-bottom: 18px;
+    box-shadow: none;
+    border: none;
+}
+
+/* Ссылки */
+a, .grp-link {
+    color: #1a73e8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover, .grp-link:hover {
+    text-decoration: underline;
+    color: #0d47a1;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+    background: #f3f4f6;
+}
+::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 4px;
+}
