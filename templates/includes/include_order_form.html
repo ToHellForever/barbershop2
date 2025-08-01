@@ -1,0 +1,92 @@
+{% load static %}
+<form id="order-form" method="post" action="{% url 'order_create' %}" class="row g-3">
+  {% csrf_token %}
+  
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger mb-2">
+    {% for error in form.non_field_errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <div class="col-12">
+    {{ form.client_name.label_tag }}
+    {{ form.client_name }}
+    {% if form.client_name.errors %}
+      <div class="text-danger">
+        {% for error in form.client_name.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="col-12">
+    {{ form.master.label_tag }}
+    {{ form.master }}
+    {% if form.master.errors %}
+      <div class="text-danger">
+        {% for error in form.master.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="col-12" id="services-container">
+    <!-- Здесь можно динамически добавлять услуги, если нужно -->
+    {% if form.services.errors %}
+      <div class="text-danger">
+        {% for error in form.services.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {{ form.services.label_tag }}
+    {{ form.services }}
+  </div>
+  
+  <div class="col-12">
+    {{ form.phone.label_tag }}
+    {{ form.phone }}
+    {% if form.phone.errors %}
+      <div class="text-danger">
+        {% for error in form.phone.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="col-12">
+    {{ form.comment.label_tag }}
+    {{ form.comment }}
+    {% if form.comment.errors %}
+      <div class="text-danger">
+        {% for error in form.comment.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="col-12">
+    {{ form.appointment_date.label_tag }}
+    {{ form.appointment_date }}
+    {% if form.appointment_date.errors %}
+      <div class="text-danger">
+        {% for error in form.appointment_date.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="col-12 text-center mt-4">
+    <button class="btn btn-success px-5" type="submit">Записаться</button>
+  </div>
+  
+</form>
+
+<script src="{% static 'js/main.js' %}"></script>

@@ -169,6 +169,7 @@ class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at",)
     actions = ("publish_reviews", "unpublish_reviews")
     list_editable = ("is_published",)
+    created_at = ("created_at",)
     
     class Media:
         css = {

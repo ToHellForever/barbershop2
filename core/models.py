@@ -31,7 +31,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="new", verbose_name="Статус")  
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders', verbose_name="Мастер")  
-    services = models.ManyToManyField('Service', related_name="orders", verbose_name="Услуги")
+    services = models.ManyToManyField('Service', related_name='orders', verbose_name="Услуги")
     appointment_date = models.DateTimeField(verbose_name="Дата и время записи")
 
     def __str__(self):
@@ -57,15 +57,28 @@ class Service(models.Model):
         verbose_name_plural = "Услуги"
     
 class Review(models.Model):
-    text = models.TextField(verbose_name="Текст отзыва")
-    client_name = models.CharField(max_length=100, blank=True, verbose_name="Имя клиента")
-    master = models.ForeignKey('Master', on_delete=models.CASCADE, verbose_name="Мастер")
-    photo = models.ImageField(upload_to="reviews/", blank=True, null=True, verbose_name="Фотография")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    rating = models.PositiveSmallIntegerField(
-        verbose_name="Оценка",
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    RATING_CHOICES = (
+        (1, "Ужасно"),
+        (2, "Плохо"),
+        (3, "Нормально"),
+        (4, "Хорошо"),
+        (5, "Отлично"),
     )
+    STATUS_CHOICES = (
+        ("new", "Новый"),
+        ("ai_moderated", "На модерации"),
+        ("ai_approved", "Одобрен AI"),
+        ("ai_rejected", "Отклонен AI"),
+        ("published", "Опубликован"),
+        ("archived", "В архиве"),
+    )
+    text = models.TextField(verbose_name="Текст отзыва")
+    client_name = models.CharField(max_length=100, blank=True, default=None, verbose_name="Имя клиента")
+    master = models.ForeignKey('Master', on_delete=models.SET_NULL, verbose_name="Мастер", related_name="reviews", null=True)
+    photo = models.ImageField(upload_to="reviews/", null=True, blank=True, verbose_name="Фотография")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    rating = models.PositiveIntegerField(choices=RATING_CHOICES, default=5, verbose_name="Рейтинг")
+    status = models.CharField(choices=STATUS_CHOICES, default="new", max_length=20, verbose_name="Статус")
     is_published = models.BooleanField(default=True, verbose_name="Опубликован")
 
     def __str__(self):
