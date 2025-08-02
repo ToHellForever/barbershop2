@@ -1,9 +1,23 @@
-from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Master, Review, Order, Service
+from .forms import OrderForm, ReviewForm
 # безопасность 
 from django.contrib.auth.decorators import login_required
 # импорт q
 from django.db.models import Q, Sum
+
+def get_master_services(request):
+    master_id = request.GET.get('master_id')
+    services = []
+    if master_id:
+        try:
+            master = Master.objects.get(id=master_id)
+            services = list(master.services.values('id', 'name'))
+        except Master.DoesNotExist:
+            pass
+    return JsonResponse({'services': services})
 
 def landing(request):
     """
@@ -42,20 +56,6 @@ def masters_views(request):
     }
     return render(request, 'masters.html', context=context)
 
-
-def entry_form(request):
-    """
-    Страница записи на услугу.
-    Отображает шаблон entry.html, передавая данные о мастерах и услугах для выбора.
-    """
-    services = Service.objects.all()
-    masters = Master.objects.filter(is_active=True) # только активные мастера на будущее 
-    context = {
-        'services': services,
-        'masters': masters
-    }
-    return render(request, 'entry_form.html', context=context)
-
 def thanks(request):
     """
     Страница благодарности.
@@ -63,6 +63,11 @@ def thanks(request):
     """
     return render(request, 'thanks.html') 
 
+def thanks_form(request):
+    """
+    Страница благодарности после оставления отзыва
+    """
+    return render(request, 'thanks_form.html')
 
 @login_required
 def orders_list(request):
@@ -130,3 +135,33 @@ def order_detail(request, order_id):
         'date_created': order.date_created,
     }
     return render(request, 'order_detail.html', context=context)
+
+def order_page(request):
+    form = OrderForm()
+    return render(request, "order_page.html", {"form": form})
+
+def order_create(request):
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Заявка успешно отправлена!")
+            return redirect("thanks")
+    else:
+        form = OrderForm()
+
+    return render(request, "order_page.html", {"form": form})
+
+
+def review_create(request):
+    if request.method == "GET":
+        form = ReviewForm()
+        return render(request, "review_class_form.html", {'form': form})
+
+    elif request.method == "POST":
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("thanks_form")
+        else:
+            return render(request, "review_class_form.html", {'form': form})
