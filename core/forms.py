@@ -20,7 +20,13 @@ class ReviewForm(forms.ModelForm):
             "photo": forms.FileInput(attrs={"class": "form-control"}),
         }
 
-
+# обязательное поле имени в отызве
+    def clean_client_name(self):
+        client_name = self.cleaned_data.get("client_name")
+        if not client_name:
+            raise forms.ValidationError("Пожалуйста, введите имя")
+        return client_name
+    
 
 class OrderForm(forms.ModelForm):
     class Meta:

@@ -1,35 +1,43 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">{{ operation_type }}</h3>
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center">Запись на услугу</h3>
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
-                        {% for field in form %}
-                            <div class="mb-3">
-                                {{ field.label_tag }}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-danger mt-1">{{ error }}</div>
-                                {% endfor %}
-                            </div>
+                        {% comment %} Цикл по ошибкам не связанным с полем {% endcomment %}
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
                         {% endfor %}
-                        
-                        <button type="submit" class="btn btn-primary w-100">Сохранить</button>
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger mt-1">{{ error }}</div>
+                        {% endfor %}
+                        {% comment %} Рендерим поля формы {% endcomment %}
+                        {% if field.name != 'services' %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% comment %} Контейнер для динамического отображения услуг {% endcomment %}
+                        <div id="services-container" class="row"></div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Сохранить</button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </div>
+        </div>  
     </div>
 </div>
 {% endblock %}

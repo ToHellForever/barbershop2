@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
 
 def get_master_services(request):
+    """
+    Функция для получения списка услуг для конкретного мастера.
+    """
     master_id = request.GET.get('master_id')
     services = []
     if master_id:
@@ -136,9 +139,6 @@ def order_detail(request, order_id):
     }
     return render(request, 'order_detail.html', context=context)
 
-def order_page(request):
-    form = OrderForm()
-    return render(request, "order_page.html", {"form": form})
 
 def order_create(request):
     if request.method == "POST":
@@ -150,7 +150,7 @@ def order_create(request):
     else:
         form = OrderForm()
 
-    return render(request, "order_page.html", {"form": form})
+    return render(request, "order_class_form.html", {"form": form})
 
 
 def review_create(request):
@@ -162,6 +162,7 @@ def review_create(request):
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Спасибо за ваш отзыв! Он успешно отправлен.')
             return redirect("thanks_form")
         else:
             return render(request, "review_class_form.html", {'form': form})

@@ -36,7 +36,6 @@ class TotalOrderPrice(admin.SimpleListFilter):
         elif self.value() == "up_five_thousand":
             return queryset.filter(total_price_agg__gte=5000)
         return queryset
-
 # Кастомный фильтр по дате записи
 class AppointmentDateFilter(admin.SimpleListFilter):
     title = "По дате записи"
