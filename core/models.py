@@ -50,6 +50,7 @@ class Service(models.Model):
     image = models.ImageField(upload_to="services/", blank=True, verbose_name="Изображение")
 
     def __str__(self):
+        
         return self.name
     
     class Meta:

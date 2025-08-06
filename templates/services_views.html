@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}The Gilded Razor - Услуги{% endblock %}
+
+{% block content %}
+  <main class="container py-4">
+    <section id="services" class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-5 display-4 fw-bold">Услуги</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          {% for service in services %}
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-center p-4">
+                  <h3 class="card-title mb-3">{{ service.name }}</h3>
+                  <p class="card-text">{{ service.description }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

@@ -6,7 +6,9 @@ from .forms import OrderForm, ReviewForm
 # безопасность 
 from django.contrib.auth.decorators import login_required
 # импорт q
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count
+# импорт классовых views
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
 def get_master_services(request):
     """
@@ -22,19 +24,15 @@ def get_master_services(request):
             pass
     return JsonResponse({'services': services})
 
-def landing(request):
-    """
-    Главная страница.
-    Отображает шаблон landing.html, передавая данные о мастерах и отзывах.
-    """
-    masters = Master.objects.filter(is_active=True) # Получаем активных мастеров
-    reviews = Review.objects.select_related('master').filter(is_published=True).order_by('-created_at')[:4] # Получаем последние 4 отзыва
 
-    context = {
-        'masters': masters,
-        'reviews': reviews,
-    }
-    return render(request, 'landing.html', context=context)
+class LandingView(TemplateView):
+    template_name = 'landing.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['masters'] = Master.objects.filter(is_active=True)
+        context['reviews'] = Review.objects.select_related('master').filter(is_published=True).order_by('-created_at')[:4]
+        return context
+
 
 def services_views(request):
     """
@@ -45,33 +43,30 @@ def services_views(request):
     context = {
         'services': services
     }
-    return render(request, 'services.html', context=context)
+    return render(request, 'services_views.html', context=context)
 
 
-def masters_views(request):
-    """
-    Страница мастеров.
-    Отображает шаблон masters.html, передавая данные о мастерах.
-    """
-    masters = Master.objects.all() 
-    context = {
-        'masters': masters
-    }
-    return render(request, 'masters.html', context=context)
+class ThanksView(TemplateView):
+    """View для страницы благодарности"""
 
-def thanks(request):
-    """
-    Страница благодарности.
-    Отображает шаблон thanks.html.
-    """
-    return render(request, 'thanks.html') 
+    template_name = "thanks.html"
 
-def thanks_form(request):
-    """
-    Страница благодарности после оставления отзыва
-    """
-    return render(request, 'thanks_form.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Спасибо"
+        context["messages"] = "Спасибо за ваше обращение"
 
+        # Добавляем специфические сообщения в зависимости от источника
+        source = kwargs.get("sourse", "")
+        if source == "order_create":
+            context["title"] = "Спасибо за заказ"
+            context["messages"] = "Спасибо за заказ! Мы скоро с вами свяжемся."
+        elif source == "review_create":
+            context["title"] = "Спасибо за отзыв"
+            context["messages"] = "Спасибо за ваш отзыв! Ваше мнение очень важно для нас."
+        context["source"] = source
+
+        return context
 @login_required
 def orders_list(request):
     search_query = request.GET.get('q', '')  # Получаем поисковый запрос
@@ -163,6 +158,6 @@ def review_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Спасибо за ваш отзыв! Он успешно отправлен.')
-            return redirect("thanks_form")
+            return redirect("thanks")
         else:
             return render(request, "review_class_form.html", {'form': form})
