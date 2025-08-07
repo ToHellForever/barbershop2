@@ -1,0 +1,39 @@
+<div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel" style="background-color: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  <div class="carousel-indicators">
+    {% for review in reviews %}
+    <button type="button" data-bs-target="#reviewsCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} style="background-color: #007bff;"></button>
+    {% endfor %}
+  </div>
+
+  <div class="carousel-inner">
+    {% for review in reviews %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <div class="text-center p-4" style="min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="w-100">
+          <h4 class="mb-3" style="color: #343a40;">{{ review.client_name }}</h4>
+          <div class="mb-3" style="color: #ffc107;">
+            {% for i in "12345"|make_list %}
+              {% if i <= review.rating|stringformat:"d" %}
+                <i class="bi bi-star-fill" style="font-size: 1.2rem;"></i>
+              {% else %}
+                <i class="bi bi-star" style="font-size: 1.2rem;"></i>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p class="lead mb-3" style="color: #495057; font-size: 1.1rem;">{{ review.text }}</p>
+          <p class="text-muted" style="font-size: 0.9rem;">{{ review.created_at|date:"d E Y" }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev" style="width: 40px; height: 40px; background-color: #6c757d; border-radius: 50%; opacity: 0.7; transition: opacity 0.3s; position: absolute; top: 50%; left: 10px; transform: translateY(-50%);">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Предыдущий</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next" style="width: 40px; height: 40px; background-color: #6c757d; border-radius: 50%; opacity: 0.7; transition: opacity 0.3s; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Следующий</span>
+  </button>
+</div>

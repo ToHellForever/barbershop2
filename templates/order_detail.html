@@ -17,29 +17,29 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">Мастер:</span>
-                        <span class="info-value">{{ master_name }}</span>
+                        <span class="info-value">{{ order.master.name }}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Дата создания:</span>
-                        <span class="info-value">{{ date_created }}</span>  
+                        <span class="info-value">{{ order.date_created }}</span>  
                     </div>
                     <div class="info-item">
                         <span class="info-label">Дата записи:</span>
-                        <span class="info-value">{{ appointment_date }}</span>  
+                        <span class="info-value">{{ order.appointment_date }}</span>  
                     </div>
                     <div class="info-item">
                         <span class="info-label">Номер телефона:</span>
-                        <span class="info-value">{{ phone }}</span>
+                        <span class="info-value">{{ order.phone }}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Комментарий:</span>
-                        <span class="info-value">{{ comment }}</span> 
+                        <span class="info-value">{{ order.comment }}</span> 
                     </div>
                     <div class="info-item">
                         <span class="info-label">Услуги:</span>
                         <ul class="services-list">
-                            {% for service in related_services %}
-                                <li>{{ service.name }}</li>
+                            {% for service in services %}
+                                <li>{{ service.name }} - {{ service.price }} руб</li>
                             {% endfor %}
                         </ul>
                     </div>

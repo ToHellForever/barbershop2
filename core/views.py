@@ -1,36 +1,49 @@
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponseNotAllowed
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from .models import Master, Review, Order, Service
 from .forms import OrderForm, ReviewForm
-# безопасность 
+
+# безопасность
 from django.contrib.auth.decorators import login_required
+
 # импорт q
-from django.db.models import Q, Sum, Count
+from django.db.models import Q, Sum, Count, F
+
 # импорт классовых views
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
+
+# импорт reverse_lazy
+from django.urls import reverse_lazy, reverse
+
 
 def get_master_services(request):
     """
     Функция для получения списка услуг для конкретного мастера.
+    для использования в AJAX-запросе
     """
-    master_id = request.GET.get('master_id')
+    master_id = request.GET.get("master_id")
     services = []
     if master_id:
         try:
             master = Master.objects.get(id=master_id)
-            services = list(master.services.values('id', 'name'))
+            services = list(master.services.values("id", "name"))
         except Master.DoesNotExist:
             pass
-    return JsonResponse({'services': services})
+    return JsonResponse({"services": services})
 
 
 class LandingView(TemplateView):
-    template_name = 'landing.html'
+    template_name = "landing.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['masters'] = Master.objects.filter(is_active=True)
-        context['reviews'] = Review.objects.select_related('master').filter(is_published=True).order_by('-created_at')[:4]
+        context["masters"] = Master.objects.filter(is_active=True)
+        context["reviews"] = (
+            Review.objects.select_related("master")
+            .filter(is_published=True)
+            .order_by("-created_at")[:3]
+        )
         return context
 
 
@@ -39,11 +52,9 @@ def services_views(request):
     Страница услуг.
     Отображает шаблон services.html, передавая данные об услугах.
     """
-    services = Service.objects.all() 
-    context = {
-        'services': services
-    }
-    return render(request, 'services_views.html', context=context)
+    services = Service.objects.all()
+    context = {"services": services}
+    return render(request, "services_views.html", context=context)
 
 
 class ThanksView(TemplateView):
@@ -57,107 +68,86 @@ class ThanksView(TemplateView):
         context["messages"] = "Спасибо за ваше обращение"
 
         # Добавляем специфические сообщения в зависимости от источника
-        source = kwargs.get("sourse", "")
+        source = kwargs.get("source", "")
         if source == "order_create":
-            context["title"] = "Спасибо за заказ"
             context["messages"] = "Спасибо за заказ! Мы скоро с вами свяжемся."
         elif source == "review_create":
-            context["title"] = "Спасибо за отзыв"
-            context["messages"] = "Спасибо за ваш отзыв! Ваше мнение очень важно для нас."
+            context["messages"] = (
+                "Спасибо за ваш отзыв! Ваше мнение очень важно для нас."
+            )
+
         context["source"] = source
-
         return context
-@login_required
-def orders_list(request):
-    search_query = request.GET.get('q', '')  # Получаем поисковый запрос
-    search_name = request.GET.get('search_name', 'on')  # По умолчанию включен
-    search_phone = request.GET.get('search_phone', '')
-    search_comment = request.GET.get('search_comment', '')
-
-    # Создаем базовый QuerySet, отсортированный по дате создания
-    orders = Order.objects.all().order_by('-date_created')
-
-    # Создаем Q-объект для фильтрации
-    q_object = Q()
-
-    # Если есть поисковый запрос, добавляем условия в зависимости от чекбоксов
-    if search_query:
-        if search_name == 'on':  # Если включен чекбокс "Имя клиента"
-            q_object |= Q(client_name__icontains=search_query)
-        if search_phone == 'on':  # Если включен чекбокс "Телефон"
-            q_object |= Q(phone__icontains=search_query)
-        if search_comment == 'on':  # Если включен чекбокс "Комментарий"
-            q_object |= Q(comment__icontains=search_query)
-
-        # Фильтруем заказы с использованием Q-объекта
-        orders = Order.objects.prefetch_related('services').select_related('master').filter(q_object)
-    context = {
-        'orders': orders,
-        'search_query': search_query,
-        'search_name': search_name,
-        'search_phone': search_phone,
-        'search_comment': search_comment,
-    }
-    return render(request, 'orders_list.html', context=context)
 
 
-@login_required
-def order_detail(request, order_id):
-    """
-    Страница деталей заказа.
-    Отображает шаблон order_detail.html, передавая данные о конкретном заказе.
-    Если заказ не найден, возвращает 404 ошибку.
-    """
-    # Получаем заказ по ID, используя prefetch_related и select_related для оптимизации запросов
-    # Используем annotate для получения суммы стоимости услуг
-    order = (
-        Order.objects.prefetch_related("services")
-        .select_related("master")
-        .annotate(total_price=Sum("services__price"))
-        .get(id=order_id)
-    )
+class OrdersListView(ListView):
+    model = Order
+    template_name = "orders_list.html"
+    context_object_name = "orders"
+    ordering = ['-date_created'] 
 
-    # Получаем имя мастера
-    master_name = order.master.name if order.master else "Неизвестный мастер"
-
-    # Получаем связанные услуги
-    related_services = order.services.all() 
-
-    context = {
-        'order': order,
-        'master_name': master_name, 
-        'related_services': related_services,
-        'phone': order.phone,  
-        'comment': order.comment,  
-        'appointment_date': order.appointment_date, 
-        'date_created': order.date_created,
-    }
-    return render(request, 'order_detail.html', context=context)
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        search_query = self.request.GET.get("q", "")
+        search_name = self.request.GET.get("search_name", "")
+        search_phone = self.request.GET.get("search_phone", "")
+        search_comment = self.request.GET.get("search_comment", "")
+        q_object = Q()
+        if search_query:
+            if search_name == "on":
+                q_object |= Q(client_name__icontains=search_query)
+            if search_phone == "on":
+                q_object |= Q(phone__icontains=search_query)
+            if search_comment == "on":
+                q_object |= Q(comment__icontains=search_query)
+        return query_set.filter(q_object)
 
 
-def order_create(request):
-    if request.method == "POST":
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Заявка успешно отправлена!")
-            return redirect("thanks")
-    else:
-        form = OrderForm()
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = "order_detail.html"
+    context_object_name = "order"
+    pk_url_kwarg = "order_id"
 
-    return render(request, "order_class_form.html", {"form": form})
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return (
+            queryset.select_related("master")
+            .prefetch_related("services")
+            .annotate(total_price=Sum("services__price"))
+        )    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = self.object.services.all()
+        return context
+
+class OrderCreateView(CreateView):
+    form_class = OrderForm
+    template_name = "order_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "order_create"})
+    success_message = "Заказ успешно создан!"
+
+    def form_valid(self, form):
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка при создании заказа!")
+        return super().form_invalid(form)
 
 
-def review_create(request):
-    if request.method == "GET":
-        form = ReviewForm()
-        return render(request, "review_class_form.html", {'form': form})
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = "review_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "review_create"})
+    success_message = "Отзыв успешно создан!"
 
-    elif request.method == "POST":
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Спасибо за ваш отзыв! Он успешно отправлен.')
-            return redirect("thanks")
-        else:
-            return render(request, "review_class_form.html", {'form': form})
+    def form_valid(self, form):
+        form.instance.status = "new"
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка при создании заказа!")
+        return super().form_invalid(form)

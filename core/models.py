@@ -80,7 +80,7 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     rating = models.PositiveIntegerField(choices=RATING_CHOICES, default=5, verbose_name="Рейтинг")
     status = models.CharField(choices=STATUS_CHOICES, default="new", max_length=20, verbose_name="Статус")
-    is_published = models.BooleanField(default=True, verbose_name="Опубликован")
+    is_published = models.BooleanField(default=False, verbose_name="Опубликован")
 
     def __str__(self):
         return f"Отзыв от {self.client_name} о {self.master}"

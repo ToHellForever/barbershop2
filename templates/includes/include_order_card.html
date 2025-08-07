@@ -1,14 +1,10 @@
 <div class="order-card">
-    <h2>Заявка №{{ order.id }}</h2>
-    <p>Имя: {{ order.client_name }}</p>
-    <p class="order-status
-        {% if order.status == 'new' %}new{% endif %}
-        {% if order.status == 'confirmed' %}confirmed{% endif %}
-        {% if order.status == 'canceled' %}canceled{% endif %}
-        {% if order.status == 'completed' %}completed{% endif %}"> 
-        Статус заявки: {{ order.get_status_display }}
-    </p>
-    <div class="center-button">
-        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Подробнее</a>
-    </div>
+  <h2>Заявка №{{ order.id }}</h2>
+  <p>Имя: {{ order.client_name }}</p>
+  <p class="order-status {{ order.status }}">
+    Статус заявки: {{ order.get_status_display }}
+  </p>
+  <div class="center-button">
+    <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Подробнее</a>
+  </div>
 </div>
