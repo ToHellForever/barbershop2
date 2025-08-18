@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<main class="container py-4">
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 display-4 fw-bold">Личный кабинет</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4">Ваш профиль</h3>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Имя пользователя:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    {{ user.username }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Email:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    {{ user.email }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Дата регистрации:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    {{ user.date_joined|date:"d E Y" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4">Ваши заказы</h3>
+                            {% if orders %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th>Мастер</th>
+                                                <th>Услуги</th>
+                                                <th>Статус</th>
+                                                <th>Сумма</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td>{{ order.appointment_date|date:"d E Y H:i" }}</td>
+                                                    <td>{{ order.master.name|default:"Не назначен" }}</td>
+                                                    <td>
+                                                        {% for service in order.services.all %}
+                                                            {{ service.name }}{% if not forloop.last %}, {% endif %}
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% if order.status == "new" %}
+                                                            <span>Новая</span>
+                                                        {% elif order.status == "confirmed" %}
+                                                            <span>Подтверждена</span>
+                                                        {% elif order.status == "completed" %}
+                                                            <span>Выполнена</span>
+                                                        {% elif order.status == "canceled" %}
+                                                            <span>Отменена</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ order.total_price|floatformat:2 }} руб.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-center">У вас пока нет заказов.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'landing' %}" class="btn btn-primary">На главную</a>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

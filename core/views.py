@@ -3,9 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from .models import Master, Review, Order, Service
 from .forms import OrderForm, ReviewForm
-
-# безопасность
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 
 # импорт q
 from django.db.models import Q, Sum, Count, F
@@ -47,15 +45,13 @@ class LandingView(TemplateView):
         return context
 
 
-def services_views(request):
-    """
-    Страница услуг.
-    Отображает шаблон services.html, передавая данные об услугах.
-    """
-    services = Service.objects.all()
-    context = {"services": services}
-    return render(request, "services_views.html", context=context)
+class ServicesView(TemplateView):
+    template_name = "services_views.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = Service.objects.all()
+        return context
 
 class ThanksView(TemplateView):
     """View для страницы благодарности"""
@@ -80,11 +76,14 @@ class ThanksView(TemplateView):
         return context
 
 
-class OrdersListView(ListView):
+class OrdersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Order
     template_name = "orders_list.html"
     context_object_name = "orders"
-    ordering = ['-date_created'] 
+    ordering = ['-date_created']
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get_queryset(self):
         query_set = super().get_queryset()
@@ -103,12 +102,15 @@ class OrdersListView(ListView):
         return query_set.filter(q_object)
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Order
     template_name = "order_detail.html"
     context_object_name = "order"
     pk_url_kwarg = "order_id"
-
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
     def get_queryset(self):
         queryset = super().get_queryset()
         return (
@@ -151,3 +153,6 @@ class ReviewCreateView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Ошибка при создании заказа!")
         return super().form_invalid(form)
+
+
+def page_not_found_view(request, exception): return render(request, '404.html', status=404)

@@ -16,6 +16,16 @@
                 <div class="card-body text-center p-4">
                   <h3 class="card-title mb-3">{{ service.name }}</h3>
                   <p class="card-text">{{ service.description }}</p>
+                  <p class="card-text">Цена: {{ service.price }} руб.</p>
+                  <p class="card-text">Длительность: {{ service.duration }} минут</p>
+                  {% if service.is_popular %}
+                    <p class="card-text text-success fw-bold">⭐ Популярная услуга!</p>
+                  {% else %}
+                    <p class="card-text text-muted">Стандартная услуга</p>
+                  {% endif %}
+                  {% if service.image %}
+                    <img src="{{ service.image.url }}" class="img-fluid mt-2" alt="{{ service.name }}" style="max-height: 150px;">
+                  {% endif %}
                 </div>
               </div>
             </div>

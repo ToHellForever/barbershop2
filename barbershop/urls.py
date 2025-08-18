@@ -7,7 +7,7 @@ from core.views import (
     ThanksView,
     OrdersListView,
     OrderDetailView,
-    services_views,
+    ServicesView,
     ReviewCreateView,
     OrderCreateView,
 )
@@ -21,9 +21,10 @@ urlpatterns = [
     path("orders/", views.OrdersListView.as_view(), name="orders_list"),  # Список заказов
     path("thanks/<str:source>/", views.ThanksView.as_view(), name="thanks"),  # Страница благодарности
     path("orders/<int:order_id>/", views.OrderDetailView.as_view(), name="order_detail"),  # Детали заказа
-    path("services/", views.services_views, name="services_views"),  # Список услуг
+    path("services/", views.ServicesView.as_view(), name="services_views"),  # Список услуг
     path("order_create/", views.OrderCreateView.as_view(), name="order_create"),  # Страница записи на услугу
-    path("review_create/", views.ReviewCreateView.as_view(), name="review_create"),  # Создание отзыва
+    path("review_create/", views.ReviewCreateView.as_view(), name="review_create"), 
+    path("users/", include("users.urls")),# Создание отзыва
 ] + debug_toolbar_urls()
 
 # API для динамической подгрузки услуг мастера

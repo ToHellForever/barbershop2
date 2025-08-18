@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_extensions',
     "debug_toolbar",
     'core',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 INTERNAL_IPS = ["127.0.0.1",]
+
+# Настройки для статических файлов
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Куда будет собирать collectstatic
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
