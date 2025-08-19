@@ -15,8 +15,10 @@ from django.contrib import messages
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import Order
+
 # импорт Sum
 from django.db.models import Sum
+
 
 class CustomRegisterView(CreateView):
     form_class = CustomRegisterForm
@@ -50,6 +52,7 @@ class CustomRegisterView(CreateView):
         context["operation_type"] = "Регистрация"
         return context
 
+
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "users_login_registr.html"
@@ -69,8 +72,15 @@ class CustomLoginView(LoginView):
         context["operation_type"] = "Авторизация"
         return context
 
+
 class CustomLogoutView(LogoutView):
     next_page = "/"
+    success_message = "Вы успешно разлогинились!"
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, self.success_message)
+        return super().post(request, *args, **kwargs)
+
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "profile.html"
@@ -78,8 +88,12 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
-        orders = Order.objects.filter(client_name=self.request.user.username).order_by('-date_created')
+        orders = Order.objects.filter(client_name=self.request.user.username).order_by(
+            "-date_created"
+        )
         for order in orders:
-            order.total_price = order.services.aggregate(total=Sum('price'))['total'] or 0
+            order.total_price = (
+                order.services.aggregate(total=Sum("price"))["total"] or 0
+            )
         context["orders"] = orders
         return context

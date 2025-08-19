@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% comment %} users_login_registr.html {% endcomment %}
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -22,12 +21,8 @@
                             <div class="mb-3">
                                 {{ field.label_tag }}
                                 {{ field }}
-                                {% comment %} {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %} {% endcomment %}
                             </div>
                         {% endfor %}
-
                          <button type="submit" class="btn btn-success w-100">{{ operation_type  }}</button>
                      </form>
                  </div>
